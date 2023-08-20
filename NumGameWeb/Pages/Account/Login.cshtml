@@ -1,0 +1,61 @@
+@page
+@model LoginModel
+@{
+    ViewData["Title"] = "Sign in";
+}
+
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="col-md-3">
+        <div class="login-container">
+            <h2 class="text-center mb-4">Login</h2>
+            <form method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Input.Email"></label>
+                    <input asp-for="Input.Email" class="form-control">
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+
+                
+                <div class="form-group">
+                    <label asp-for="Input.Password"></label>
+                    <div class="input-group">
+                        <input id="passwordInput" asp-for="Input.Password" class="form-control" type="password">
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-outline-secondary" id="showPasswordToggle">
+                                <i class="fa fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <input asp-for="IsRememberMe" class="form-check-input">
+                    <label class="form-check-label" asp-for="IsRememberMe">Remember Me</label>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+    <script>
+        const passwordInput = document.getElementById('passwordInput');
+        const showPasswordToggle = document.getElementById('showPasswordToggle');
+
+        showPasswordToggle.addEventListener('click', function () {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                showPasswordToggle.innerHTML = '<i class="fa fa-eye-slash"></i>';
+            } else {
+                passwordInput.type = 'password';
+                showPasswordToggle.innerHTML = '<i class="fa fa-eye"></i>';
+            }
+        });
+    </script>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
