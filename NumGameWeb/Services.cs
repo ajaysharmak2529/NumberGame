@@ -17,7 +17,7 @@ namespace NumGameWeb
 
         }
 
-        public async Task<int> SaveBettingData(BettingSaveRequest betting)
+        public async Task<BetSaveResponce> SaveBettingData(BettingSaveRequest betting)
         {
             try
             {
@@ -30,19 +30,19 @@ namespace NumGameWeb
 
                 if (response.IsSuccessStatusCode)
                 {
-                    return JsonSerializer.Deserialize<BetSaveResponce>(await response.Content.ReadAsStringAsync())!.wallet_balance;
+                    return JsonSerializer.Deserialize<BetSaveResponce>(await response.Content.ReadAsStringAsync())!;
 
                 }
                 else
                 {
-                    return -1;
+                    return null;
                 }
 
             }
             catch (Exception ex)
             {
                 await Console.Out.WriteLineAsync(ex.Message);
-                return -1;
+                return null;
             }
         }
 

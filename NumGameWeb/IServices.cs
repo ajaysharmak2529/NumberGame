@@ -8,7 +8,7 @@ namespace NumGameWeb
         Task<ResponseResult<List<OpeningNumber>>> GetRecentOpenNumbers();
         Task<UserDetail> GetUserDetail();
         Task<string> GetUserToken();
-        Task<int> SaveBettingData(BettingSaveRequest betting);
+        Task<BetSaveResponce> SaveBettingData(BettingSaveRequest betting);
         List<int> GetMissingBettingNumbers(List<BettingInfo> userBets);
         int GetNumberWithLowestAmount(List<BettingInfo> userBets);
         List<BettingInfo> GetUsersWhoBetOnLowestAmountNumber(List<BettingInfo> userBets, int winNumber);

@@ -18,12 +18,12 @@ namespace NumGameWeb
             // Add services to the container.
             builder.Services.AddRazorPages();
             builder.Services.AddControllersWithViews();
-            //builder.Services.AddProgressiveWebApp();
+            builder.Services.AddProgressiveWebApp();
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                             .AddCookie(options =>
                             {
-                                options.ExpireTimeSpan = TimeSpan.FromHours(12);
+                                options.ExpireTimeSpan = TimeSpan.FromHours(24);
                                 options.SlidingExpiration = true;
                                 options.AccessDeniedPath = "/Account/AccessDenied";
                                 options.LogoutPath = "/Account/Login";

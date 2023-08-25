@@ -24,7 +24,7 @@ namespace NumGameWeb.Controllers
         public async Task<IActionResult> Logout()
         {
             _logger.LogInformation("User {Name} logged out at {Time}.", 
-                User.Identity.Name, DateTime.UtcNow);
+                User?.Identity?.Name, DateTime.UtcNow);
             
             #region snippet1
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);

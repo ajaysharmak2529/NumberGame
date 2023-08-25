@@ -12,7 +12,7 @@ namespace NumGameWeb.Pages
     {
         public int CurrentPage { get; set; }
         public int TotalPages { get; set; }
-        public int PageSize { get; set; } = 10;
+        public int PageSize { get; set; } = 100;
         public List<UserHistoryObj>? UserHistories { get; set; }
         public async Task<IActionResult> OnGetAsync([FromQuery(Name = "page")] int? page)
         {            

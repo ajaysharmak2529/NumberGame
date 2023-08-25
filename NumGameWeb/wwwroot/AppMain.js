@@ -3,83 +3,85 @@ const numberContainer = document.getElementById('numbercontainer');
 const buttonsInsideContainer = numberContainer.querySelectorAll('button');
 const allButtons = document.querySelectorAll('button');
 var betelement = document.getElementById("TotalBet");
-
+let isConfirm = false;
 let batingInfoArray = [];
 let totalBetAmmount = 0;
 let bettingJson = "";
 let checkBalance = true;
 
 function handleButtonClick(event) {
-    // Get the clicked button
-    const clickedButton = event.target;
+
+    if (!isConfirm) {
+
+        const clickedButton = event.target;
+        const dataValue = clickedButton.getAttribute('data-value');
+        const selectedNumber = parseInt(dataValue);
+        const selectedAmountInput = priceButtons.querySelector('input[type="radio"]:checked');
+        const selectedAmount = selectedAmountInput.checked ? parseInt(selectedAmountInput.value) : 0;
+        const storedWalletBalance = localStorage.getItem('walletBalance');
+
+        if (storedWalletBalance !== null) {
 
 
-
-    // Get the value of the "data-value" attribute
-    const dataValue = clickedButton.getAttribute('data-value');
-
-    // Convert the attribute value to an integer
-    const selectedNumber = parseInt(dataValue); // 10 specifies decimal/base 10
-
-    // Find the selected betting amount (you'll need to adjust this based on your HTML structure)
+            const walletBalance = parseInt(storedWalletBalance);
+            totalBetAmmount += selectedAmount;
+            if (walletBalance >= totalBetAmmount) {
 
 
-    const selectedAmountInput = priceButtons.querySelector('input[type="radio"]:checked');
-    const selectedAmount = selectedAmountInput.checked ? parseInt(selectedAmountInput.value) : 0;
+                betelement.innerText = totalBetAmmount;
 
-    const storedWalletBalance = localStorage.getItem('walletBalance');
+                clickedButton.classList.remove('btn-outline-dark');
+                clickedButton.classList.add('btn-dark');
 
+                const badge = clickedButton.querySelector('.badge-top');
 
+                const bettingInfo = batingInfoArray.find(info => info.number === selectedNumber);
 
-    if (storedWalletBalance !== null) {
+                if (bettingInfo) {
+                    bettingInfo.amount += selectedAmount;
+                    badge.innerText = `${bettingInfo.amount}₹`;
+                }
+                else {
+                    addBadgeToButton(clickedButton, selectedAmount);
 
+                    const bettingInfo = {
+                        number: selectedNumber,
+                        amount: selectedAmount
+                    };
+                    batingInfoArray.push(bettingInfo);
+                }
+            } else {
 
-        const walletBalance = parseInt(storedWalletBalance);
-        totalBetAmmount += selectedAmount;
-        if (walletBalance >= totalBetAmmount) {
+                totalBetAmmount -= selectedAmount;
+                checkBalance = false;
+                betelement.innerText = totalBetAmmount;
+                ShowAlert("failure", "Your bet reached to your wallet balance please recharge your wallet to continoue!!");
 
-
-            betelement.innerText = totalBetAmmount;
-
-            clickedButton.classList.remove('btn-outline-dark');
-            clickedButton.classList.add('btn-dark');
-
-            const badge = clickedButton.querySelector('.badge-top');
-
-            const bettingInfo = batingInfoArray.find(info => info.number === selectedNumber);
-
-            if (bettingInfo) {
-                bettingInfo.amount += selectedAmount;
-                badge.innerText = `${bettingInfo.amount}₹`;
             }
-            else {
-                addBadgeToButton(clickedButton, selectedAmount);
-
-                const bettingInfo = {
-                    number: selectedNumber,
-                    amount: selectedAmount
-                };
-                batingInfoArray.push(bettingInfo);
-            }
-        } else {
-
-            totalBetAmmount -= selectedAmount;
-            checkBalance = false;
-            betelement.innerText = totalBetAmmount;
-            ShowAlert("Your bet reached to your wallet balance please recharge your wallet to continoue!!");
 
         }
-
     }
 
 
     console.log('Betting Info Array:', batingInfoArray);
 }
 
-function ShowAlert(message) {
-    document.getElementById("AlertText").innerText = message;
-    $('#AlertModal').modal('show');
+function ShowAlert(type, message) {
+    const modal = document.getElementById('notificationModal');
+    const icon = document.getElementById('notificationIcon');
+    const messageElement = document.getElementById('notificationMessage');
+
+    if (type === 'success') {
+        icon.className = 'fas fa-check-circle text-success';
+    } else if (type === 'failure') {
+        icon.className = 'fas fa-times-circle text-danger';
+    }
+
+    messageElement.textContent = message;
+    $(modal).modal('show'); // Use jQuery to show the modal
 }
+
+
 
 function addBadgeToButton(targetButton, ammount) {
 
@@ -165,7 +167,7 @@ connection.on("NotifyWinner", (dataJson) => {
 
 connection.on("UpdateTimer", (message) => {
     var timerElement = document.getElementById("timer");
-    timerElement.innerText = `Opning time : ${message}`;
+    timerElement.innerHTML = `${message}`;
 });
 connection.on("DisableButtons", () => {
     disableButtons();
@@ -176,29 +178,39 @@ connection.on("EnableButtons", () => {
 
 function ConfirmBet(event) {
 
-    bettingJson = JSON.stringify(batingInfoArray);
-    if (batingInfoArray.length > 0) {
-        const cancelButton = document.getElementById("Cancelclick");
-        const clickedButton = event.target;
-        clickedButton.disabled = true;
-        cancelButton.disabled = true;
+    if (totalBetAmmount > 0) {
 
-        connection.invoke("ConfirmBeting", bettingJson).then((x) => {
+        bettingJson = JSON.stringify(batingInfoArray);
+        if (batingInfoArray.length > 0) {
+            const cancelButton = document.getElementById("Cancelclick");
+            const clickedButton = event.target;
+            clickedButton.disabled = true;
+            cancelButton.disabled = true;
 
-            if (x !== -1) {
+            connection.invoke("ConfirmBeting", bettingJson).then((x) => {
 
-                let walletElement = document.getElementById("Wallet");
-                walletElement.innerText = `${x} ₹`;
-                ShowAlert("Your bet SuccessFully saved")
-                batingInfoArray = [];
-            }
+                if (x.status == true) {
+
+                    let walletElement = document.getElementById("Wallet");
+                    walletElement.innerText = `${x.wallet_balance} ₹`;
+                    ShowAlert("success", "Your bet SuccessFully saved")
+                    isConfirm = true;
+                    batingInfoArray = [];
+                } else {
+                    ShowAlert("failure", x.message);
+                }
 
 
-        }).catch(function (error) {
-            console.error(error);
-            ShowAlert("We are Facing Some Problem please try again after some time!")
-        });
+            }).catch(function (error) {
+                console.error(error);
+                ShowAlert("failure", "We are Facing Some Problem please try again after some time!")
+            });
+        }
+
+    } else {
+        ShowAlert("failure", "Please select a number");
     }
+
 }
 
 connection.start()

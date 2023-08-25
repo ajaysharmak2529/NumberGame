@@ -11,10 +11,9 @@ namespace NumGameWeb
         public IServices _service { get; }
         public UpdateHub(IServices service)
         {
-
             _service = service;
         }
-        public async Task<int> ConfirmBeting(string BettingJson)
+        public async Task<BetSaveResponce> ConfirmBeting(string BettingJson)
         {
             if (!string.IsNullOrEmpty(BettingJson))
             {
@@ -31,7 +30,7 @@ namespace NumGameWeb
             }
             else
             {
-                return -1;
+                return null;
 
             }
 

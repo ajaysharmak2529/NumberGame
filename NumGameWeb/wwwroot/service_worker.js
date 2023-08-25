@@ -7,6 +7,13 @@ self.addEventListener("install", e => {
     );
 });
 
+self.addEventListener('activate', (event) => {
+    // Reset the installation flag when the service worker is unregistered
+    if (!self.registration.active) {
+        localStorage.removeItem('pwaInstalled');
+    }
+});
+
 // Fatch resources
 self.addEventListener("fetch", e => {
     e.respondWith(

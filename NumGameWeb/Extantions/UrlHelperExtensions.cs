@@ -8,7 +8,7 @@ namespace Microsoft.AspNetCore
         {
             if (!urlHelper.IsLocalUrl(localUrl))
             {
-                return urlHelper!.Page("/Index");
+                return urlHelper!.Page("/Index")!;
             }
 
             return localUrl;
