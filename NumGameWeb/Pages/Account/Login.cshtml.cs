@@ -41,23 +41,16 @@ namespace NumGameWeb.Pages.Account
             public string? Password { get; set; }
         }
 
-        #region snippet2
         public async Task OnGetAsync(string returnUrl = null)
         {
-            if (!string.IsNullOrEmpty(ErrorMessage))
+            if (User.Identity.IsAuthenticated)
             {
-                ModelState.AddModelError(string.Empty, ErrorMessage);
+                HttpContext.Response.Redirect("/index");
             }
-
-            // Clear the existing external cookie
-            //await HttpContext.SignOutAsync(
-            //    CookieAuthenticationDefaults.AuthenticationScheme);
 
             ReturnUrl = returnUrl;
         }
-        #endregion
-
-        #region snippet1
+        
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
@@ -71,19 +64,19 @@ namespace NumGameWeb.Pages.Account
                 // on the email address maria.rodriguez@contoso.com with 
                 // any password that passes model validation.
 
-                var user = await AuthenticateUser(Input.Email, Input.Password);
+                var user = await AuthenticateUser(Input.Email!, Input.Password!);
                 
                 if (user.status == false)
                 {
-                    ModelState.AddModelError(string.Empty, user.message);
+                    ModelState.AddModelError(string.Empty, user.message!);
                     return Page();
                 }
 
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, user.data.full_name),
-                    new Claim("FullName", user.data.email),
-                    new Claim("Token", user.data.token),
+                    new Claim(ClaimTypes.Name !, user.data!.full_name!),
+                    new Claim("FullName" !, user.data.email !),
+                    new Claim("Token" !, user.data.token !),
                     new Claim(ClaimTypes.NameIdentifier, user.data.user_id.ToString()),
                 };
 
@@ -111,8 +104,7 @@ namespace NumGameWeb.Pages.Account
             // Something failed. Redisplay the form.
             return Page();
         }
-        #endregion
-
+        
         public async Task<ResponseResult<ApplicationUser>> AuthenticateUser(string email, string password)
         {
             try

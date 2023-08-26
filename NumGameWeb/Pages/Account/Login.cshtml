@@ -39,10 +39,27 @@
     </div>
 </div>
 
+<div class="modal fade" id="installModal" tabindex="-1" aria-labelledby="installModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="installModalLabel">Install App</h5>
+            </div>
+            <div class="modal-body">
+                <p>Would you like to install our app and access it easily from your home screen?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="installButton">Install</button>
+                <button type="button" class="btn btn-primary" style="display:none" id="OpenApp">Open App</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
 @section Scripts {
+    <script src="~/index.js" asp-append-version="true"></script>
     <script>
         const passwordInput = document.getElementById('passwordInput');
         const showPasswordToggle = document.getElementById('showPasswordToggle');

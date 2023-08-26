@@ -1,6 +1,7 @@
 ﻿@page
 @model indexModel
 @{
+    ViewData["Title"] = "Number Game";
 }
 
 
@@ -165,7 +166,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="installModalLabel">Install Our App</h5>
+                <h5 class="modal-title" id="installModalLabel">Install App</h5>
             </div>
             <div class="modal-body">
                 <p>Would you like to install our app and access it easily from your home screen?</p>
@@ -180,8 +181,8 @@
 
 @section Scripts{
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.10/signalr.min.js"></script>
-    <script src="index.js" asp-append-version="true"></script>
-    <script src="AppMain.js" asp-append-version="true"></script>
+    <script src="~/index.js" asp-append-version="true"></script>
+    <script src="~/AppMain.js" asp-append-version="true"></script>
     <script>
         localStorage.setItem('walletBalance', @Model.UserData!.wallet);
     </script>
