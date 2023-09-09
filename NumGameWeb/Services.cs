@@ -50,7 +50,7 @@ namespace NumGameWeb
 
 
 
-        public async Task<string> GetUserToken()
+        public string GetUserToken()
         {
             if (_HttpContextAccessor.HttpContext!.User.Identity!.IsAuthenticated)
             {
@@ -67,7 +67,7 @@ namespace NumGameWeb
         {
             try
             {
-                var token = await GetUserToken();
+                var token = GetUserToken();
 
                 if (!string.IsNullOrEmpty(token))
                 {
@@ -84,18 +84,18 @@ namespace NumGameWeb
                     }
                     else
                     {
-                        return null;
+                        return null!;
                     }
                 }
                 else
                 {
-                    return null;
+                    return null!;
                 }
             }
             catch (Exception ex)
             {
                 await Console.Out.WriteLineAsync(ex.Message);
-                return null;
+                return null!;
             }
 
 
@@ -146,7 +146,7 @@ namespace NumGameWeb
                     response.EnsureSuccessStatusCode();
 
                     var responce = JsonSerializer.Deserialize<ResponseResult<List<BettingInfo>>>(await response.Content.ReadAsStringAsync());
-                    return responce.data;                
+                    return responce.data!;                
             }
             catch (Exception ex)
             {
@@ -198,18 +198,18 @@ namespace NumGameWeb
                 }
                 else
                 {
-                    return null;
+                    return null!;
                 }
             }
             catch (Exception ex)
             {
                 await Console.Out.WriteLineAsync(ex.Message);
-                return null;
+                return null!;
             }
         }
 
 
-        public async Task<int> UpdateUserWallet(int userId, int amount, int number, string token)
+        public async Task<decimal> UpdateUserWallet(int userId, int amount, int number, string token)
         {
             try
             {
@@ -240,10 +240,10 @@ namespace NumGameWeb
 
         public Task<string> GetUserIdBySession()
         {
-            HttpContext httpContext = _HttpContextAccessor.HttpContext;
+            HttpContext httpContext = _HttpContextAccessor.HttpContext!;
             if (httpContext != null)
             {
-                return Task.FromResult<string>(httpContext.Session.GetString("userId"));// _HttpContextAccessor.HttpContext.Session.GetString("userId")! //.Session?.GetString("userId");
+                return Task.FromResult<string>(httpContext.Session.GetString("userId")!);// _HttpContextAccessor.HttpContext.Session.GetString("userId")! //.Session?.GetString("userId");
 
             }
             else
@@ -253,7 +253,7 @@ namespace NumGameWeb
         }
         public async Task<string> GetUserID()
         {
-            HttpContext httpContext = _HttpContextAccessor.HttpContext;
+            HttpContext httpContext = _HttpContextAccessor.HttpContext!;
             if (httpContext!.User!.Identity!.IsAuthenticated)
             {
                 return _HttpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier)!;
@@ -270,7 +270,7 @@ namespace NumGameWeb
     {
         public bool status { get; set; }
         public string message { get; set; }
-        public int wallet_balance { get; set; }
+        public decimal wallet_balance { get; set; }
     }
 
 

@@ -16,9 +16,10 @@ namespace NumGameWeb
         private readonly IServiceScopeFactory _dependencyInjectionContainer;
         private readonly ILogger<BackgroundJobs> _logger;
         private Timer _timer;
-        private double _interval = 3;
+        private double _interval = 0.5;
         private int _executionCount = 0;
         private TimeSpan InitialTime;
+       private Random rnd = new Random();
 
 
         public BackgroundJobs(ILogger<BackgroundJobs> logger, IHubContext<UpdateHub> hubContext, IServiceScopeFactory dependencyInjectionContainer)
@@ -73,15 +74,16 @@ namespace NumGameWeb
                     var from_date = DateTime.Now.Subtract(TimeSpan.FromMinutes(_interval)).ToString("yyyy-MM-dd HH:mm:ss");
                     var to_date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
+
+                    #region Number Betting
+
                     var data = await _service.GetAllBettingDetails(from_date, to_date);
-                    
-                    if (data.Count>0)
+
+                    if (data != null && data.Count > 0)
                     {
                         var missingNumber = _service.GetMissingBettingNumbers(data);
-                        if (missingNumber.Count > 0)
+                        if (missingNumber!= null && missingNumber.Count > 0)
                         {
-
-                            Random rnd = new Random();
                             var index = rnd.Next(0, missingNumber.Count);
 
                             var openningNumber = missingNumber[index];
@@ -93,7 +95,7 @@ namespace NumGameWeb
                             var numbers = _service.GetRecentOpenNumbers().Result.data;
 
                             // Updated to UI
-                            if (numbers.Count > 0)
+                            if (numbers != null && numbers.Count > 0)
                             {
                                 _hubContext.Clients?.All.SendAsync("updateOpenNumberAndList", numbers.Select(x => x.open_number).ToList()!);
                             }
@@ -110,7 +112,7 @@ namespace NumGameWeb
                             var numbers = _service.GetRecentOpenNumbers().Result.data;
 
                             // Updated to UI
-                            if (numbers.Count > 0)
+                            if (numbers!= null && numbers.Count > 0)
                             {
                                 _hubContext.Clients?.All.SendAsync("updateOpenNumberAndList", numbers.Select(x => x.open_number).ToList()!);
                             }
@@ -129,13 +131,13 @@ namespace NumGameWeb
                                 var sendObj = new { WinningAmount = winningAmount, WinningNumber = item.number, wallet = UpdatedWallet };
 
                                 _hubContext.Clients?.User(item.user_id.ToString()).SendAsync("NotifyWinner", sendObj);
-                            }                           
+                            }
                         }
 
                     }
                     else
                     {
-                        Random rnd = new Random();
+                        
                         var openningNumber = rnd.Next(0, 99);
 
                         // Save Opening number to database
@@ -149,22 +151,29 @@ namespace NumGameWeb
 
                         _hubContext.Clients?.User("4601").SendAsync("NotifyWinner", sendObj);
                         // Updated to UI
-                        if (numbers.data?.Count > 0)
+                        if (numbers != null && numbers.data?.Count > 0)
                         {
                             _hubContext.Clients?.All.SendAsync("updateOpenNumberAndList", numbers.data.Select(x => x.open_number).ToList()!);
                         }
 
                     }
+
+                    #endregion
+
+                    #region Heads And Tails
+                    
+                   var res = rnd.Next(0, 10);
+                    
+                    _hubContext.Clients?.All.SendAsync("updateCoinResult", res <5 ? "Heads" : "Tails");
+                    #endregion
+
+
                 }
 
 
 
-            _logger.LogInformation("{Service} is working, execution count: {Count:#,0}", nameof(NumGameWeb), count);
+                _logger.LogInformation("{Service} is working, execution count: {Count:#,0}", nameof(NumGameWeb), count);
             }
-
-
-
-
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
@@ -184,10 +193,10 @@ namespace NumGameWeb
     }
 
 }
-    
 
 
 
-    
+
+
 
 

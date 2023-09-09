@@ -41,9 +41,9 @@ namespace NumGameWeb.Pages.Account
             public string? Password { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task OnGetAsync(string returnUrl = null!)
         {
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity!.IsAuthenticated)
             {
                 HttpContext.Response.Redirect("/index");
             }
@@ -51,28 +51,22 @@ namespace NumGameWeb.Pages.Account
             ReturnUrl = returnUrl;
         }
         
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null!)
         {
             ReturnUrl = returnUrl;
 
             if (ModelState.IsValid)
             {
-                // Use Input.Email and Input.Password to authenticate the user
-                // with your custom authentication logic.
-                //
-                // For demonstration purposes, the sample validates the user
-                // on the email address maria.rodriguez@contoso.com with 
-                // any password that passes model validation.
-
-                var user = await AuthenticateUser(Input.Email!, Input.Password!);
-                
-                if (user.status == false)
+                    var user = await AuthenticateUser(Input.Email!, Input.Password!);
+                if (user!=null)
                 {
-                    ModelState.AddModelError(string.Empty, user.message!);
-                    return Page();
-                }
+                    if (user.status == false)
+                    {
+                        ModelState.AddModelError(string.Empty, user.message!);
+                        return Page();
+                    }
 
-                var claims = new List<Claim>
+                    var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name !, user.data!.full_name!),
                     new Claim("FullName" !, user.data.email !),
@@ -80,25 +74,30 @@ namespace NumGameWeb.Pages.Account
                     new Claim(ClaimTypes.NameIdentifier, user.data.user_id.ToString()),
                 };
 
-                var claimsIdentity = new ClaimsIdentity(
-                    claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var claimsIdentity = new ClaimsIdentity(
+                        claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-                var authProperties = new AuthenticationProperties
-                {
-                    IsPersistent = IsRememberMe,
-                };
+                    var authProperties = new AuthenticationProperties
+                    {
+                        IsPersistent = IsRememberMe,
+                    };
 
-                await HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme, 
-                    new ClaimsPrincipal(claimsIdentity), 
-                    authProperties);
+                    await HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                        new ClaimsPrincipal(claimsIdentity),
+                        authProperties);
 
-                var clms = User.FindFirstValue("Token");
+                    var clms = User.FindFirstValue("Token");
 
-                _logger.LogInformation("User {Email} logged in at {Time}.", 
-                    user.data.email, DateTime.UtcNow);
+                    _logger.LogInformation("User {Email} logged in at {Time}.",
+                        user.data.email, DateTime.UtcNow);
 
-                return LocalRedirect(Url.GetLocalUrl(returnUrl));
+                    return LocalRedirect(Url.GetLocalUrl(returnUrl)); 
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "Unable to validate your detail please try again");
             }
 
             // Something failed. Redisplay the form.
@@ -121,7 +120,7 @@ namespace NumGameWeb.Pages.Account
                     {
                         var str = await response.Content.ReadAsStringAsync();
                         var data = JsonSerializer.Deserialize<ResponseResult<ApplicationUser>>(str);
-                        return data;
+                        return data!;
                     }
                     else
                     {
@@ -132,7 +131,7 @@ namespace NumGameWeb.Pages.Account
             catch (Exception ex)
             {
                 await Console.Out.WriteLineAsync(ex.Message);
-                return null;
+                return null!;
             }
         }
     }

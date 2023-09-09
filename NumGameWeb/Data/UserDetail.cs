@@ -14,7 +14,7 @@
         public string? full_name { get; set; }
         public string? email { get; set; }
         public string? phone { get; set; }
-        public int wallet { get; set; }
+        public decimal wallet { get; set; }
     }
 
 }

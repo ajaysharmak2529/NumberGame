@@ -1,0 +1,107 @@
+﻿@page "/Coinflip"
+@model NumGameWeb.Pages.CoinFlipModel
+@{
+    ViewData["Title"] = "Coin Flip Game";
+}
+
+<div class="container mt-3 mb-3">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <div id="countdown">
+                <h1 class="text-danger">OPENING TIME</h1>
+                <div id='timer'></div>
+                <div class="labels">
+                    <span>Mins</span>
+                    <span>Secs</span>
+                </div>
+            </div>
+            <hr />
+
+        </div>
+        <div class="col-md-12 text-center">
+            <div class="">LIVE RESULT<br /> <strong id="result">Heads</strong> </div>
+            <hr />
+        </div>
+        <div class="col-md-12 text-md-start">
+            <div class="d-flex justify-content-between">
+                <h2><i class="fas fa-wallet ml-3"></i> <span id="Wallet">@Model.UserData?.wallet ₹</span></h2>
+                <a href="/UserHistory" class="btn btn-primary btn-sm">Payment History</a>
+            </div>
+        </div>
+        @{
+            await Html.RenderPartialAsync("_LoginPartial");
+        }
+        <hr />
+    </div>
+    <div class="col-md-12 d-flex justify-content-center">
+    <div class="coin" id="coin">
+        <div class="heads">
+            <img src="~/heads.png">
+        </div>
+        <div class="tails">
+            <img src="~/tails.png">
+        </div>
+    </div>
+
+    </div>
+    <div class="row align-content-center">
+        <div class="col-md-12 d-flex justify-content-center" id="ButonsCoins">
+            <button type="button" class="btn btn-info btn-lg position-relative" id="HeadsBtn">Heads</button>
+            <button type="button" class="btn btn-warning btn-lg mr-3 position-relative" id="TailsBtn">Tails</button>
+        </div>
+    </div>
+    <div class="row mb-5">
+        <div class="col-md-12 d-flex justify-content-center mt-2 mb-3">
+            <div id="pricebutons" class="col-5">
+                <div class="btn-group">
+                    <input type="radio" name="priceBtn" value="1" class="btn-check" id="btnone" autocomplete="off" checked="">
+                    <label class="btn btn-outline-primary" for="btnone">1₹</label>
+                    <input type="radio" name="priceBtn" value="5" class="btn-check" id="btntwo" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="btntwo">5₹</label>
+                    <input type="radio" name="priceBtn" value="10" class="btn-check" id="btnthree" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="btnthree">10₹</label>
+                    <input type="radio" name="priceBtn" value="50" class="btn-check" id="btnfour" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="btnfour">50₹</label>
+
+                </div>
+                <div class="btn-group mt-3">
+                    <input type="radio" name="priceBtn" value="100" class="btn-check" id="btnfive" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="btnfive">100₹</label>
+                    <input type="radio" name="priceBtn" value="500" class="btn-check" id="btnsix" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="btnsix">500₹</label>
+                    <input type="radio" name="priceBtn" value="1000" class="btn-check" id="btnseven" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="btnseven">1000₹</label>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 text-center mb-5">
+            <div class="mb-1">
+                <h4>Your Total Bet <span class="badge bg-success badge-light" id="TotalBet">0</span></h4>
+            </div>
+            <button type="button" id="Confirmclick" class="btn btn-success btn-sm mr-3">Confirm Bet!</button>
+            <button type="button" id="Cancelclick" class="btn btn-danger btn-sm mr-3">Cancel Bet!</button>
+
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="text-center">
+                    <i id="notificationIcon" class=""></i>
+                    <p id="notificationMessage"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/js/flipcoin.js" asp-append-version="true"></script>
+    <script>
+        localStorage.setItem('walletBalance', @Model.UserData?.wallet);
+    </script>
+}
