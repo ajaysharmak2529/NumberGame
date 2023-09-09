@@ -16,7 +16,7 @@ namespace NumGameWeb
         private readonly IServiceScopeFactory _dependencyInjectionContainer;
         private readonly ILogger<BackgroundJobs> _logger;
         private Timer _timer;
-        private double _interval = 0.5;
+        private double _interval = 3;
         private int _executionCount = 0;
         private TimeSpan InitialTime;
        private Random rnd = new Random();

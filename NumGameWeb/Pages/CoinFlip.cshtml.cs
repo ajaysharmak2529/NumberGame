@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using NumGameWeb.Data;
 
 namespace NumGameWeb.Pages
 {
+    [Authorize]
     public class CoinFlipModel : PageModel
     {
         public IServices _service { get; }

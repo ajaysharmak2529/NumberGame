@@ -162,12 +162,12 @@ namespace NumGameWeb
             {
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(HttpMethod.Post, "https://globalbigwin.com/api/open-number/insert");
-                var requestobj = new
+                var requestObj = new
                 {
                     open_number = number.ToString(),
                     open_date = DateTime.Now.ToString("yyyy-MM-dd HH:mm-ss")
                 };
-                var content = new StringContent(JsonSerializer.Serialize(requestobj), null, "application/json");
+                var content = new StringContent(JsonSerializer.Serialize(requestObj), null, "application/json");
                 request.Content = content;
                 var response = await client.SendAsync(request);
                 if (response.IsSuccessStatusCode)
