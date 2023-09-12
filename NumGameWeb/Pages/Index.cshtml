@@ -29,7 +29,7 @@
         <div class="col-md-12 text-md-start">
             <div class="d-flex justify-content-between">
             <h2><i class="fas fa-wallet ml-3"></i> <span id="Wallet">@(Model.UserData?.wallet) ₹</span></h2>
-                <a href="/UserHistory" class="btn btn-primary btn-sm">Payment History</a>
+                <a href="/UserHistory?type=number" class="btn btn-primary btn-sm">Payment History</a>
             </div>
         </div>
             @{await Html.RenderPartialAsync("_LoginPartial");}

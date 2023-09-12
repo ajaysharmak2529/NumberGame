@@ -15,7 +15,41 @@
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    
+    <nav class="navbar bg-light">
+        <div class="container">
+            <a class="navbar-brand">
+                <img src="/images/logo512.png" alt="Bootstrap" width="40" height="30">
+            </a>
+            <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasNavbar" role="button" aria-controls="offcanvasNavbar"><i class="fa-solid fa-bars"></i></a>
+            @* <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                @* <span class="navbar-toggler-icon"></span>
+                <i class="fa-solid fa-bars"></i>
+            </button> *@
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    @if (User.Identity.IsAuthenticated) {
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Hello @User.Identity.Name</h5>                        
+                    }
+
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        <li class="nav-item">
+                            <a class="btn btn-primary" aria-current="page" href="/Coinflip">Head/Tail Game</a>
+                        </li>
+                        <li class="nav-item">
+                            @{
+                                await Html.RenderPartialAsync("_LoginPartial");
+                            }
+                        </li>
+                        
+                    </ul>
+                   
+                </div>
+            </div>
+        </div>
+    </nav>
     @RenderBody()
 
     <footer class="border-top footer text-muted">

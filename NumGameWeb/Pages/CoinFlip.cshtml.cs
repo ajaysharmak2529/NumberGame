@@ -6,34 +6,37 @@ using NumGameWeb.Data;
 namespace NumGameWeb.Pages
 {
     [Authorize]
+    [BindProperties]
     public class CoinFlipModel : PageModel
     {
         public IServices _service { get; }
 
-        [BindProperty]
+
         public UserData? UserData { get; set; }
+        public string CoinSide { get; set; } = string.Empty;
         public CoinFlipModel(IServices service)
         {
             _service = service;
+
+
         }
-        public void OnGet()
+        
+        public async void OnGet()
         {
             if (User.Identity!.IsAuthenticated)
             {
-                var userdata = _service.GetUserDetail().Result;
-                if (userdata != null)
+                var userData = _service.GetUserDetail().Result;
+                if (userData != null)
                 {
-                    UserData = userdata.data;
-                    var userid = _service.GetUserID();
+                    UserData = userData.data;
+                    var res = _service.GetRecentOpenCoinBet().Result;
+                    CoinSide = res.open_coin!;
+
                 }
                 else
                 {
-                    UserData.wallet =0;
+                    UserData!.wallet = 0;
                 }
-
-
-
-
             }
         }
     }

@@ -187,7 +187,7 @@ function ConfirmBet(event) {
             clickedButton.disabled = true;
             cancelButton.disabled = true;
 
-            connection.invoke("ConfirmBeting", bettingJson).then((x) => {
+            connection.invoke("ConfirmBetting", bettingJson).then((x) => {
 
                 if (x.status == true) {
 

@@ -250,8 +250,7 @@ strong {
     height: 150px;
     width: 150px;
     position: relative;
-    margin: 10px auto;
-    z-index: 1;
+    margin-bottom: 50px;
     -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
 }
@@ -260,20 +259,16 @@ strong {
         width: 145px;
     }
 
-    .coin div {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
+.heads, .tails {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
 
 .tails {
-    transform: rotateY(180deg) translateZ(1px);
+    transform: rotateX(180deg);
 }
 
 

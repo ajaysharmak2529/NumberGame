@@ -3,46 +3,35 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using NumGameWeb.Data;
 using System.Security.Claims;
-using System.Text.Json;
 
-namespace NumGameWeb.Pages
-{
+namespace NumGameWeb.Pages {
     [Authorize]
-    public class UserHistoryModel : PageModel
-    {
+    public class UserHistoryModel : PageModel {
+        private readonly IServices _services;
+
+        public UserHistoryModel(IServices services) {
+            _services = services;
+        }
         public int CurrentPage { get; set; }
         public int TotalPages { get; set; }
         public int PageSize { get; set; } = 100;
-        public List<UserHistoryObj>? UserHistories { get; set; }
-        public async Task<IActionResult> OnGetAsync([FromQuery(Name = "page")] int? page)
-        {            
+        public string? PageType { get; set; }
+        public List<UserHistoryObj>? UserNumberBettingHistory { get; set; }
+        public List<CoinBetResponse>? UserCoinBettingHistory { get; set; }
+        public async Task<IActionResult> OnGetAsync(string type, int? page) {
+            PageType = type;
+            if (type == "number") {
                 CurrentPage = page ?? 1;
-                var responce =  GetUserHistory(new UserHistoryRequest { limit = PageSize, offset = (CurrentPage - 1) * PageSize, token = User.FindFirstValue("Token")! }).Result;
-                UserHistories = responce.data;
-                TotalPages = (int)Math.Ceiling((double)responce.row_count / PageSize);
-            
+                var response = _services.GetUserHistory(new UserHistoryRequest { limit = PageSize, offset = (CurrentPage - 1) * PageSize, token = User.FindFirstValue("Token")! }).Result;
+                UserNumberBettingHistory = response.data;
+                TotalPages = (int)Math.Ceiling((double)response.row_count / PageSize);
+            }else {
+                CurrentPage = page ?? 1;
+                var response = _services.GetUserCoinBetHistory(new UserHistoryRequest { limit = PageSize, offset = (CurrentPage - 1) * PageSize, token = User.FindFirstValue("Token")! }).Result;
+                UserCoinBettingHistory = response.data;
+                TotalPages = (int)Math.Ceiling((double)response.row_count / PageSize);
+            }
             return Page();
-
-        }
-
-        public async Task<UserHistoryResponce> GetUserHistory(UserHistoryRequest userHistoryRequest)
-        {
-            try
-            {
-                var client = new HttpClient();
-                var request = new HttpRequestMessage(HttpMethod.Post, "https://globalbigwin.com/api/user/user-payment-history");
-                var content = new StringContent(JsonSerializer.Serialize(userHistoryRequest), null, "application/json");
-                request.Content = content;
-                var response = await client.SendAsync(request);
-                response.EnsureSuccessStatusCode();
-                return JsonSerializer.Deserialize<UserHistoryResponce>(await response.Content.ReadAsStringAsync())!;
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return null;
-            }
-        }
+        }        
     }
 }

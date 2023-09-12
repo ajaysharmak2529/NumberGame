@@ -18,33 +18,36 @@
             <hr />
 
         </div>
-        <div class="col-md-12 text-center">
-            <div class="">LIVE RESULT<br /> <strong id="result">Heads</strong> </div>
-            <hr />
-        </div>
+        
         <div class="col-md-12 text-md-start">
             <div class="d-flex justify-content-between">
                 <h2><i class="fas fa-wallet ml-3"></i> <span id="Wallet">@Model.UserData?.wallet ₹</span></h2>
-                <a href="/UserHistory" class="btn btn-primary btn-sm">Payment History</a>
+                <a href="/UserHistory?type=coin"  class="btn btn-primary btn-sm">Payment History</a>
             </div>
         </div>
-        @{
-            await Html.RenderPartialAsync("_LoginPartial");
-        }
+       
         <hr />
     </div>
-    <div class="col-md-12 d-flex justify-content-center">
+    <div class="col-md-12 d-flex justify-content-center text-center">
     <div class="coin" id="coin">
-        <div class="heads">
-            <img src="~/heads.png">
-        </div>
-        <div class="tails">
-            <img src="~/tails.png">
-        </div>
+            @if (Model.CoinSide == "head") 
+            {
+                <div class="heads">
+                    <img src="~/heads.png">
+                    <strong>HEAD</strong>
+                </div>
+            }else {
+                <div class="tails">
+                    <img src="~/tails.png">
+                    <strong>TAIL</strong>
+                </div>
+            }
+        
+        
     </div>
 
     </div>
-    <div class="row align-content-center">
+    <div class="row align-content-center mt-5">
         <div class="col-md-12 d-flex justify-content-center" id="ButonsCoins">
             <button type="button" class="btn btn-info btn-lg position-relative" id="HeadsBtn">Heads</button>
             <button type="button" class="btn btn-warning btn-lg mr-3 position-relative" id="TailsBtn">Tails</button>
@@ -80,10 +83,25 @@
             <div class="mb-1">
                 <h4>Your Total Bet <span class="badge bg-success badge-light" id="TotalBet">0</span></h4>
             </div>
-            <button type="button" id="Confirmclick" class="btn btn-success btn-sm mr-3">Confirm Bet!</button>
-            <button type="button" id="Cancelclick" class="btn btn-danger btn-sm mr-3">Cancel Bet!</button>
+            <button type="button" id="Confirmclick" class="btn btn-success btn-sm mr-3 m-3">Confirm Bet!</button>
+            <button type="button" id="Cancelclick" class="btn btn-danger btn-sm mr-3 m-3">Cancel Bet!</button>
 
 
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="WinnerModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="card">
+            <div class="text-right cross"> <i class="fa fa-times"></i> </div>
+            <div class="card-body text-center">
+                <img src="https://img.icons8.com/bubbles/200/000000/trophy.png">
+                <h3>CONGRATULATIONS!</h3>
+                <label> Winning Number</label>
+                <h5 id="WinningNumber"></h5><br />
+                <label>Winning Price</label>
+                <h6 id="WinningPrice"></h6>
+            </div>
         </div>
     </div>
 </div>
@@ -95,6 +113,22 @@
                     <i id="notificationIcon" class=""></i>
                     <p id="notificationMessage"></p>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="installModal" tabindex="-1" aria-labelledby="installModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="installModalLabel">Install App</h5>
+            </div>
+            <div class="modal-body">
+                <p>Would you like to install our app and access it easily from your home screen?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="installButton">Install</button>
+                <button type="button" class="btn btn-primary" style="display:none" id="OpenApp">Open App</button>
             </div>
         </div>
     </div>
