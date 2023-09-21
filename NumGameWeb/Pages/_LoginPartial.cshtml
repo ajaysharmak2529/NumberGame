@@ -2,6 +2,6 @@
 
 @if (HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated) {
     <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
-        <button type="submit" class="btn btn-danger btn-sm mt-3" @* style="float: right; margin-top: 10px; margin-bottom: 10px" *@>Logout</button>
+        <button type="submit" class="btn btn-danger btn-sm" @* style="float: right; margin-top: 10px; margin-bottom: 10px" *@>Logout</button>
     </form>
 }

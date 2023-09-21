@@ -193,6 +193,7 @@ function ConfirmBet(event) {
 
                     let walletElement = document.getElementById("Wallet");
                     walletElement.innerText = `${x.wallet_balance} ₹`;
+                    localStorage.setItem('walletBalance', x.wallet_balance);
                     ShowAlert("success", "Your bet SuccessFully saved")
                     isConfirm = true;
                     batingInfoArray = [];

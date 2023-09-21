@@ -103,29 +103,20 @@ body {
     background-color: rgba(255, 255, 255, 0.5); /* Add opacity to the container background */
 }
 
-.result-circle {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
+.result-circle {   
+    /*border-radius: 50%;*/
     background-color: transparent;
-    color: #c41919;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 27px;
+    color: #c41919;    
+    font-size: 38px;
     font-weight: bold;
     margin: 0 auto;
-    margin-top: 20px;
-    position: relative;
-    box-shadow: 0px 0px 0px 4px #084298;
-    flex-direction: column;
 }
 
 strong {
-    font-size: 43px;
+    font-size: 63px;
 }
 
-.result-circle:before {
+/*.result-circle:before {
     content: '';
     position: absolute;
     top: -5px;
@@ -134,7 +125,7 @@ strong {
     height: 110px;
     border-radius: 50%;
     background: radial-gradient(circle, transparent 80%, rgba(0, 0, 0, 0.2) 40%);
-}
+}*/
 
 
 
@@ -166,7 +157,7 @@ strong {
 
 .back-button {
     position: absolute;
-    top: 44px;
+    top: 104px;
     left: 10px;
 }
 
@@ -249,8 +240,7 @@ strong {
 .coin {
     height: 150px;
     width: 150px;
-    position: relative;
-    margin-bottom: 50px;
+    position: relative;   
     -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
 }

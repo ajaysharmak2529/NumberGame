@@ -58,10 +58,10 @@
                     foreach (var item in Model.UserNumberBettingHistory)
                     {
                         <tr>
-                            <td>@item.amount</td>
+                            <td>₹@item.amount</td>
                             <td>@item.number</td>
                             <td><span class="badge bg-@(item.type=="CREDIT"?"success":"danger") badge-light">@item.type</span></td>
-                            <td>@item.created_at.ToString("dd/MM/yyyy hh:mm:ss")</td>
+                            <td>@item.created_at.ToString("MM/dd/yyyy hh:mm tt")</td>
                         </tr>
                     }
                 }
@@ -78,15 +78,15 @@
                 </tr>
             </thead>
             <tbody>
-                @if (Model.UserCoinBettingHistory != null && Model.UserCoinBettingHistory.Any())
+                @if(Model.UserCoinBettingHistory != null && Model.UserCoinBettingHistory.Any())
                 {
                     foreach (var item in Model.UserCoinBettingHistory)
                     {
                         <tr>
-                            <td>@item.amount</td>
-                            <td>@item.coin_type</td>
+                            <td>₹@item.amount</td>
+                            <td class="@(@item.coin_type.ToUpperInvariant()=="HEAD"?"text-warning":"text-info")">@item.coin_type.ToUpper()</td>
                             <td><span class="badge bg-@(item.type=="CREDIT"?"success":"danger") badge-light">@item.type</span></td>
-                            <td>@item.created_at.ToString("dd/MM/yyyy hh:mm:ss")</td>
+                            <td>@item.created_at.ToString("MM/dd/yyyy hh:mm tt")</td>
                         </tr>
                     }
                 }
@@ -147,7 +147,7 @@
         $(document).ready(function () {
             $('#dataTable').DataTable({
                 info: false,
-                ordering: true,
+                        /* ordering: true */order: [],
                 paging: false
             });
         });

@@ -21,7 +21,7 @@ namespace NumGameWeb.Pages
 
         }
         
-        public async void OnGet()
+        public void OnGet()
         {
             if (User.Identity!.IsAuthenticated)
             {
@@ -30,7 +30,7 @@ namespace NumGameWeb.Pages
                 {
                     UserData = userData.data;
                     var res = _service.GetRecentOpenCoinBet().Result;
-                    CoinSide = res.open_coin!;
+                    CoinSide = res.open_coin;
 
                 }
                 else

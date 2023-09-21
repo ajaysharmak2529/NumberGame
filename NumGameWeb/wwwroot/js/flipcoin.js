@@ -55,6 +55,7 @@ function ShowAlert(type, message) {
     $(modal).modal('show'); // Use jQuery to show the modal
 }
 function installBet(coinSide) {
+    const storedWalletBalance = localStorage.getItem('walletBalance');
     const selectedAmountInput = priceButtons.querySelector('input[type="radio"]:checked');
     const selectedAmount = selectedAmountInput.checked ? parseInt(selectedAmountInput.value) : 0;
 
@@ -135,13 +136,15 @@ function startSpinning() {
     coin.classList.add("coin-spin");
 }
 function showResult(result) {
+    let coinresultElement = document.getElementById("CoinResult");
     if (result === "HEAD") {  
         coin.classList.remove("coin-spin");
-        coin.innerHTML = '<div><img src="/heads.png"><strong>HEAD</strong></div>';
+        coin.innerHTML = '<div><img src="/heads.png"></div>';
     } else {
         coin.classList.remove("coin-spin");
-        coin.innerHTML = '<div><img src="/tails.png"><strong>TAIL</strong></div>';
+        coin.innerHTML = '<div><img src="/tails.png"></div>';
     }
+    coinresultElement.innerText = result;
 }
 
 // Connect to the SignalR hub
@@ -189,6 +192,7 @@ confirmButton.addEventListener("click", () => {
                 if (x.status == true) {
                     let walletElement = document.getElementById("Wallet");
                     walletElement.innerText = `${x.wallet_balance} ₹`;
+                    localStorage.setItem('walletBalance', x.wallet_balance);
                     ShowAlert("success", "Your bet SuccessFully saved")
                     isConfirm = true;
                 } else {

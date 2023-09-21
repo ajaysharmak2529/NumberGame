@@ -86,22 +86,22 @@ namespace NumGameWeb.Pages.Account
                         CookieAuthenticationDefaults.AuthenticationScheme,
                         new ClaimsPrincipal(claimsIdentity),
                         authProperties);
-
-                    var clms = User.FindFirstValue("Token");
-
                     _logger.LogInformation("User {Email} logged in at {Time}.",
                         user.data.email, DateTime.UtcNow);
 
-                    return LocalRedirect(Url.GetLocalUrl(returnUrl)); 
+                    return LocalRedirect(Url.GetLocalUrl(returnUrl));
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Unable to connect Server please try again after some time!!");
+                    return Page();
                 }
             }
             else
             {
                 ModelState.AddModelError("", "Unable to validate your detail please try again");
-            }
-
-            // Something failed. Redisplay the form.
-            return Page();
+                return Page();
+            }            
         }
         
         public async Task<ResponseResult<ApplicationUser>> AuthenticateUser(string email, string password)

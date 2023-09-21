@@ -22,31 +22,29 @@
             <hr />
 
         </div>
-        <div class="col-md-12 text-center">
+        <div class="col-md-12 text-center d-flex justify-content-between">
             <div class="result-circle">LIVE RESULT<br /> <strong id="OpenNumber">@(Model.OpenNumber < 10 ? $"0{Model.OpenNumber}" : Model.OpenNumber)</strong> </div>
-            <hr />
         </div>
+            <hr />
+
         <div class="col-md-12 text-md-start">
-            <div class="d-flex justify-content-between">
-            <h2><i class="fas fa-wallet ml-3"></i> <span id="Wallet">@(Model.UserData?.wallet) ₹</span></h2>
+            <div class="d-flex justify-content-between align-items-center">
+                <h2><i class="fas fa-wallet ml-3 text-success"></i> <span class="text-success" id="Wallet">@Model.UserData?.wallet ₹</span></h2>
                 <a href="/UserHistory?type=number" class="btn btn-primary btn-sm">Payment History</a>
             </div>
-        </div>
-            @{await Html.RenderPartialAsync("_LoginPartial");}
-
-            <hr />
-
+        </div>           
+        <hr />
         @*//Last 10 opening numbers*@
-        <div class="col-md-12 text-center">
+        <div class="col-md-12 text-center mt-4">
             <h4>PREVIOUS OPENING NUMBERS</h4>
             <div id="previousOpenings" class="d-flex flex-wrap justify-content-center" style="color:#ffff">
                 @if (Model.PreviosOpnings != null && Model.PreviosOpnings.Count > 0)
                 {
-                    foreach (var item in Model.PreviosOpnings)
-                    {
-                        <div class="border border-success bg-success rounded m-1 p-1">@(item<10?$"0{item}":item)</div>
+                    var i = 0;
+                    foreach (var item in Model.PreviosOpnings){
+                        i++;
+                        <div class="border border-@(i==1?"danger":"success") bg-@(i==1?"danger":"success") rounded m-1 p-1">@(item < 10 ? $"0{item}" : item)</div>
                     }
-
                 }
                 else
                 {

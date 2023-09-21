@@ -11,7 +11,7 @@ namespace NumGameWeb
         public List<BettingInfo>? data { get; set; }
         public List<CoinBetResponse>? CoinData { get; set; }
         private System.Timers.Timer timer;
-        private double _interval = 1;
+        private double _interval = 3;
         private TimeSpan InitialTime;
         private Random rnd = new Random();
 

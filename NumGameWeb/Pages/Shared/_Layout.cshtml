@@ -17,35 +17,39 @@
 <body>
     <nav class="navbar bg-light">
         <div class="container">
-            <a class="navbar-brand">
+            <a class="navbar-brand" href="/">
                 <img src="/images/logo512.png" alt="Bootstrap" width="40" height="30">
             </a>
             <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasNavbar" role="button" aria-controls="offcanvasNavbar"><i class="fa-solid fa-bars"></i></a>
             @* <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-                @* <span class="navbar-toggler-icon"></span>
-                <i class="fa-solid fa-bars"></i>
+            @* <span class="navbar-toggler-icon"></span>
+            <i class="fa-solid fa-bars"></i>
             </button> *@
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                 <div class="offcanvas-header">
-                    @if (User.Identity.IsAuthenticated) {
-                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Hello @User.Identity.Name</h5>                        
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Hello @User.Identity.Name</h5>
                     }
 
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    <a class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></a>
                 </div>
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                         <li class="nav-item">
-                            <a class="btn btn-primary" aria-current="page" href="/Coinflip">Head/Tail Game</a>
+                            <a class="btn btn-primary m-2" aria-current="page" href="/index">Lucky Number Game</a>
                         </li>
                         <li class="nav-item">
+                            <a class="btn btn-primary m-2" aria-current="page" href="/Coinflip">Head/Tail Game</a>
+                        </li>
+                        <li class="nav-item m-2">
                             @{
                                 await Html.RenderPartialAsync("_LoginPartial");
                             }
                         </li>
-                        
+
                     </ul>
-                   
+
                 </div>
             </div>
         </div>
@@ -54,11 +58,11 @@
 
     <footer class="border-top footer text-muted">
         @* <div class="container">
-            &copy; 2023 - NumGameWeb - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        &copy; 2023 - NumGameWeb - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div> *@
     </footer>
 
-    
+
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.10/signalr.min.js"></script>

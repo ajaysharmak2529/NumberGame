@@ -18,39 +18,31 @@
             <hr />
 
         </div>
-        
+
         <div class="col-md-12 text-md-start">
-            <div class="d-flex justify-content-between">
-                <h2><i class="fas fa-wallet ml-3"></i> <span id="Wallet">@Model.UserData?.wallet ₹</span></h2>
-                <a href="/UserHistory?type=coin"  class="btn btn-primary btn-sm">Payment History</a>
+            <div class="d-flex justify-content-between align-items-center">
+                <h2><i class="fas fa-wallet ml-3 text-success"></i> <span class="text-success" id="Wallet">@Model.UserData?.wallet ₹</span></h2>
+                <a href="/UserHistory?type=coin" class="btn btn-primary btn-sm">Payment History</a>
             </div>
         </div>
-       
+
         <hr />
     </div>
-    <div class="col-md-12 d-flex justify-content-center text-center">
-    <div class="coin" id="coin">
-            @if (Model.CoinSide == "head") 
-            {
-                <div class="heads">
-                    <img src="~/heads.png">
-                    <strong>HEAD</strong>
-                </div>
-            }else {
-                <div class="tails">
-                    <img src="~/tails.png">
-                    <strong>TAIL</strong>
-                </div>
-            }
-        
-        
+    <h1 class="text-danger text-center">LIVE RESULT</h1>
+    <div class="col-md-12 d-flex justify-content-center">
+        <div class="coin" id="coin">
+            <div>
+                <img src="@(Model.CoinSide+"s.png")" asp-append-version="true">
+            </div>
+        </div>
     </div>
-
+    <div class="d-flex justify-content-center mt-1">
+        <h2 class="text-danger" id="CoinResult">@Model.CoinSide.ToUpperInvariant()</h2>
     </div>
-    <div class="row align-content-center mt-5">
+    <div class="row align-content-center mt-1">
         <div class="col-md-12 d-flex justify-content-center" id="ButonsCoins">
-            <button type="button" class="btn btn-info btn-lg position-relative" id="HeadsBtn">Heads</button>
-            <button type="button" class="btn btn-warning btn-lg mr-3 position-relative" id="TailsBtn">Tails</button>
+            <button type="button" class="btn btn-info btn-lg position-relative" id="HeadsBtn">HEAD</button>
+            <button type="button" class="btn btn-warning btn-lg mr-3 position-relative" id="TailsBtn">TAIL</button>
         </div>
     </div>
     <div class="row mb-5">
