@@ -134,6 +134,7 @@ strong {
 }
 
 .badge-top {
+    pointer-events: none;
     position: absolute;
     top: -7px;
     right: 0.4px;
