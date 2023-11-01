@@ -138,13 +138,19 @@ const connection = new signalR.HubConnectionBuilder()
 connection.on("updateOpenNumberAndList", (message) => {
 
     clearBettingButtonBadge();
-
+    isConfirm = false;
     const previousOpenings = document.getElementById("previousOpenings");
     previousOpenings.innerHTML = "";
-    message.forEach((x) => {
+    message.forEach((x,index) => {
         const newElement = document.createElement("div");
-        newElement.className = "border border-success bg-success rounded m-1 p-1";
-        newElement.innerText = (x < 10 ? `0${x}` : x);
+        if (index == 0) {
+            newElement.className = "border border-danger bg-danger rounded m-1 p-1";
+            newElement.innerText = (x < 10 ? `0${x}` : x);
+        } else {
+            newElement.className = "border border-success bg-success rounded m-1 p-1";
+            newElement.innerText = (x < 10 ? `0${x}` : x);
+        }
+        
         previousOpenings.appendChild(newElement);
     });
     const openNumerElement = document.getElementById("OpenNumber");
@@ -204,6 +210,7 @@ function ConfirmBet(event) {
 
             }).catch(function (error) {
                 console.error(error);
+                isConfirm = false;
                 ShowAlert("failure", "We are Facing Some Problem please try again after some time!")
             });
         }

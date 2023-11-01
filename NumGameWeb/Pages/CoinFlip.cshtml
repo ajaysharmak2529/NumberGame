@@ -4,11 +4,11 @@
     ViewData["Title"] = "Coin Flip Game";
 }
 
-<div class="container mt-3 mb-3">
-    <div class="row">
+<div class="container mt-3 mb-3 NumberContainerBG">
+    <div class="row ">
         <div class="col-md-12 text-center">
             <div id="countdown">
-                <h1 class="text-danger">OPENING TIME</h1>
+                <h1 class="text-warning bg-black">RESULT OPENING TIME</h1>
                 <div id='timer'></div>
                 <div class="labels">
                     <span>Mins</span>
@@ -21,14 +21,14 @@
 
         <div class="col-md-12 text-md-start">
             <div class="d-flex justify-content-between align-items-center">
-                <h2><i class="fas fa-wallet ml-3 text-success"></i> <span class="text-success" id="Wallet">@Model.UserData?.wallet ₹</span></h2>
+                <h2><i class="fas fa-wallet ml-3 text-success"></i> <span class="text-light bg-success" id="Wallet">@Model.UserData?.wallet ₹</span></h2>
                 <a href="/UserHistory?type=coin" class="btn btn-primary btn-sm">Payment History</a>
             </div>
         </div>
 
         <hr />
     </div>
-    <h1 class="text-danger text-center">LIVE RESULT</h1>
+    <h1 class="text-danger text-center fw-bold" style="font-size: xxx-large;">LIVE RESULT</h1>
     <div class="col-md-12 d-flex justify-content-center">
         <div class="coin" id="coin">
             <div>
@@ -37,7 +37,7 @@
         </div>
     </div>
     <div class="d-flex justify-content-center mt-1">
-        <h2 class="text-danger" id="CoinResult">@Model.CoinSide.ToUpperInvariant()</h2>
+        <h2 class="text-warning bg-black" id="CoinResult">@Model.CoinSide.ToUpperInvariant()</h2>
     </div>
     <div class="row align-content-center mt-1">
         <div class="col-md-12 d-flex justify-content-center" id="ButonsCoins">
@@ -47,9 +47,9 @@
     </div>
     <div class="row mb-5">
         <div class="col-md-12 d-flex justify-content-center mt-2 mb-3">
-            <div id="pricebutons" class="col-5">
-                <div class="btn-group">
-                    <input type="radio" name="priceBtn" value="1" class="btn-check" id="btnone" autocomplete="off" checked="">
+            <div id="pricebutons" class="col-md-5">
+                <div class="btn-group bg-light">
+                    <input type="radio" name="priceBtn" value="1" class="btn-check" id="btnone" autocomplete="off" checked="checked">
                     <label class="btn btn-outline-primary" for="btnone">1₹</label>
                     <input type="radio" name="priceBtn" value="5" class="btn-check" id="btntwo" autocomplete="off">
                     <label class="btn btn-outline-primary" for="btntwo">5₹</label>
@@ -59,7 +59,7 @@
                     <label class="btn btn-outline-primary" for="btnfour">50₹</label>
 
                 </div>
-                <div class="btn-group mt-3">
+                <div class="btn-group mt-3 bg-light">
                     <input type="radio" name="priceBtn" value="100" class="btn-check" id="btnfive" autocomplete="off">
                     <label class="btn btn-outline-primary" for="btnfive">100₹</label>
                     <input type="radio" name="priceBtn" value="500" class="btn-check" id="btnsix" autocomplete="off">
@@ -73,7 +73,7 @@
         </div>
         <div class="col-md-12 text-center mb-5">
             <div class="mb-1">
-                <h4>Your Total Bet <span class="badge bg-success badge-light" id="TotalBet">0</span></h4>
+                <h4 class="bg-success text-warning">Your Total Bet <span class="badge bg-success badge-light" id="TotalBet">0</span></h4>
             </div>
             <button type="button" id="Confirmclick" class="btn btn-success btn-sm mr-3 m-3">Confirm Bet!</button>
             <button type="button" id="Cancelclick" class="btn btn-danger btn-sm mr-3 m-3">Cancel Bet!</button>
