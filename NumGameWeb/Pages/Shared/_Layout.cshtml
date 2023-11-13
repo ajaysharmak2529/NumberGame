@@ -42,6 +42,16 @@
                         <li class="nav-item">
                             <a class="btn btn-primary m-2" aria-current="page" href="/Coinflip">Head/Tail Game</a>
                         </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="btn btn-primary m-2" aria-current="page" asp-action="payment" asp-controller="Account" asp-route-type="debit">Withdrawal</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn btn-primary m-2" aria-current="page" asp-action="payment" asp-controller="Account" asp-route-type="add">Add Money</a>
+                            </li>
+                        }
+                        
                         <li class="nav-item m-2">
                             @{
                                 await Html.RenderPartialAsync("_LoginPartial");

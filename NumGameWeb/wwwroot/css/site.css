@@ -93,7 +93,7 @@ body {
 }
 
 body {
-    background: url("../images/BG1.jpg") center center no-repeat;
+    background: url("../images/BG4.jpg") center center no-repeat;
     background-size: cover;
     background-attachment: fixed;
     /*background-image: linear-gradient(135deg, #3E5151, #DECBA4), url("https://i.pinimg.com/originals/89/ba/ae/89baaec3227c63044d8d715b7388f8b7.png");*/
@@ -127,7 +127,7 @@ strong {
     background: radial-gradient(circle, transparent 80%, rgba(0, 0, 0, 0.2) 40%);
 }*/
 .NumberContainerBG {
-    background: url(../images/BG1.jpg) center center no-repeat;
+    background: url(../images/BG4.jpg) center center no-repeat;
     background-size: cover;
     background-attachment: fixed;
 }

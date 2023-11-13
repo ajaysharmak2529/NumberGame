@@ -111,9 +111,9 @@ namespace NumGameWeb.Pages.Account
                 using (var client = new HttpClient())
                 {
                     var request = new HttpRequestMessage(HttpMethod.Post, "https://globalbigwin.com/api/auth/login");                    
-                    var userobj = new { username = email, password = password };
-
-                    var content = new StringContent(JsonSerializer.Serialize(userobj), null, "application/json");
+                    var userObj = new AuthModel { action= "loginForm", phoneEmail = email,password= password };
+                    var body = JsonSerializer.Serialize(userObj);
+                    var content = new StringContent(body, null, "application/json");
                     request.Content = content;
                     var response = await client.SendAsync(request);
                     if (response.IsSuccessStatusCode)
@@ -124,7 +124,7 @@ namespace NumGameWeb.Pages.Account
                     }
                     else
                     {
-                        return null;
+                        return null!;
                     }
                 }
             }

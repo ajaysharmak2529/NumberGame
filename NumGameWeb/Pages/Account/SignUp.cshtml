@@ -1,0 +1,111 @@
+﻿@page
+@{
+    ViewData["Title"] = "Sign Up / Register";
+}
+@model NumGameWeb.Pages.Account.SignUpModel
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="col-md-3">
+        <div class="login-container">
+            <h2 class="text-center mb-4">Register</h2>
+            <form method="post">
+                @* <div asp-validation-summary="All" class="text-danger"></div> *@
+                <div class="form-group">
+                    <label asp-for="Input!.FullName"></label>
+                    <input asp-for="Input!.FullName" class="form-control">
+                    <span asp-validation-for="Input!.FullName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input!.PhoneNumber"></label>
+                    <input asp-for="Input!.PhoneNumber" class="form-control">
+                    <span asp-validation-for="Input!.PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input!.Address"></label>
+                    <input asp-for="Input!.Address" class="form-control">
+                    <span asp-validation-for="Input!.Address" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input!.Email"></label>
+                    <input asp-for="Input!.Email" class="form-control">
+                    <span asp-validation-for="Input!.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Password"></label>
+                    <div class="input-group">
+                        <input id="passwordInput" asp-for="Input.Password" class="form-control" type="password">
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-outline-secondary" id="showPasswordToggle">
+                                <i class="fa fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.ConfirmPassword"></label>
+                    <div class="input-group">
+                        <input id="confirmPasswordInput" asp-for="Input.ConfirmPassword" class="form-control" type="password">
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-outline-secondary" id="showConfirmPasswordToggle">
+                                <i class="fa fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary btn-block">Register</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="installModal" tabindex="-1" aria-labelledby="installModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="installModalLabel">Install App</h5>
+            </div>
+            <div class="modal-body">
+                <p>Would you like to install our app and access it easily from your home screen?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="installButton">Install</button>
+                <button type="button" class="btn btn-primary" style="display:none" id="OpenApp">Open App</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script src="~/index.js" asp-append-version="true"></script>
+    <script>
+        const passwordInput = document.getElementById('passwordInput');
+        const confirmPasswordInput = document.getElementById('confirmPasswordInput');
+        const showPasswordToggle = document.getElementById('showPasswordToggle');
+        const showConfirmPasswordToggle = document.getElementById('showConfirmPasswordToggle');
+
+        showPasswordToggle.addEventListener('click', function () {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                showPasswordToggle.innerHTML = '<i class="fa fa-eye-slash"></i>';
+            } else {
+                passwordInput.type = 'password';
+                showPasswordToggle.innerHTML = '<i class="fa fa-eye"></i>';
+            }
+        });
+        showConfirmPasswordToggle.addEventListener('click', function () {
+            if (confirmPasswordInput.type === 'password') {
+                confirmPasswordInput.type = 'text';
+                showConfirmPasswordToggle.innerHTML = '<i class="fa fa-eye-slash"></i>';
+            } else {
+                confirmPasswordInput.type = 'password';
+                showConfirmPasswordToggle.innerHTML = '<i class="fa fa-eye"></i>';
+            }
+        });
+    </script>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

@@ -30,6 +30,7 @@ namespace NumGameWeb
         #endregion
 
         Task<UserHistoryResponse> GetUserHistory(UserHistoryRequest userHistoryRequest);
+        Task<ResponseResult<ApplicationUser>> RegisterUser(AuthModel authModel);
 
     }
 }

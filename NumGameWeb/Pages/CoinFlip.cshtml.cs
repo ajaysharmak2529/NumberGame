@@ -10,15 +10,11 @@ namespace NumGameWeb.Pages
     public class CoinFlipModel : PageModel
     {
         public IServices _service { get; }
-
-
         public UserData? UserData { get; set; }
         public string CoinSide { get; set; } = string.Empty;
         public CoinFlipModel(IServices service)
         {
             _service = service;
-
-
         }
         
         public void OnGet()
@@ -31,7 +27,6 @@ namespace NumGameWeb.Pages
                     UserData = userData.data;
                     var res = _service.GetRecentOpenCoinBet().Result;
                     CoinSide = res.open_coin;
-
                 }
                 else
                 {

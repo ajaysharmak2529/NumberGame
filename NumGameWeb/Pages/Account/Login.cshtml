@@ -16,7 +16,7 @@
                     <span asp-validation-for="Input.Email" class="text-danger"></span>
                 </div>
 
-                
+
                 <div class="form-group">
                     <label asp-for="Input.Password"></label>
                     <div class="input-group">
@@ -29,11 +29,17 @@
                     </div>
                     <span asp-validation-for="Input.Password" class="text-danger"></span>
                 </div>
-                <div class="form-group form-check">
+                <div class="form-group form-check mt-4">
                     <input asp-for="IsRememberMe" class="form-check-input">
                     <label class="form-check-label" asp-for="IsRememberMe">Remember Me</label>
                 </div>
-                <button type="submit" class="btn btn-primary btn-block">Login</button>
+                <div class="text-center mt-3">
+                    <button type="submit" class="btn btn-primary btn-block">Login</button>
+                </div>
+                <div class="text-center mt-3">
+                    <label> If you don't have account.</label><br />
+                    <a asp-action="Signup" asp-controller="Account">Sign Up / Register</a>
+                </div>
             </form>
         </div>
     </div>
