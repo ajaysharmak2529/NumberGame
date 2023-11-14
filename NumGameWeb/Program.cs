@@ -23,7 +23,7 @@ namespace NumGameWeb
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                             .AddCookie(options =>
                             {
-                                options.ExpireTimeSpan = TimeSpan.FromHours(24);
+                                options.ExpireTimeSpan = TimeSpan.FromDays(7);
                                 options.SlidingExpiration = true;
                                 options.AccessDeniedPath = "/Account/AccessDenied";
                                 options.LogoutPath = "/Account/Login";

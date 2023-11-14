@@ -76,7 +76,7 @@ namespace NumGameWeb.Pages.Account
 
                     var claimsIdentity = new ClaimsIdentity(
                         claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
+                    IsRememberMe = true;
                     var authProperties = new AuthenticationProperties
                     {
                         IsPersistent = IsRememberMe,
