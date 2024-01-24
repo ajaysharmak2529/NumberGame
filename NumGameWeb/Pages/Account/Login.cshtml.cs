@@ -55,18 +55,20 @@ namespace NumGameWeb.Pages.Account
         {
             ReturnUrl = returnUrl;
 
-            if (ModelState.IsValid)
+            try
             {
-                    var user = await AuthenticateUser(Input.Email!, Input.Password!);
-                if (user!=null)
+                if (ModelState.IsValid)
                 {
-                    if (user.status == false)
+                    var user = await AuthenticateUser(Input.Email!, Input.Password!);
+                    if (user != null)
                     {
-                        ModelState.AddModelError(string.Empty, user.message!);
-                        return Page();
-                    }
+                        if (user.status == false)
+                        {
+                            ModelState.AddModelError(string.Empty, user.message!);
+                            return Page();
+                        }
 
-                    var claims = new List<Claim>
+                        var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name !, user.data!.full_name!),
                     new Claim("FullName" !, user.data.email !),
@@ -74,34 +76,39 @@ namespace NumGameWeb.Pages.Account
                     new Claim(ClaimTypes.NameIdentifier, user.data.user_id.ToString()),
                 };
 
-                    var claimsIdentity = new ClaimsIdentity(
-                        claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    IsRememberMe = true;
-                    var authProperties = new AuthenticationProperties
+                        var claimsIdentity = new ClaimsIdentity(
+                            claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        var authProperties = new AuthenticationProperties
+                        {
+                            IsPersistent = true,
+                        };
+
+                        await HttpContext.SignInAsync(
+                            CookieAuthenticationDefaults.AuthenticationScheme,
+                            new ClaimsPrincipal(claimsIdentity),
+                            authProperties);
+                        _logger.LogInformation("User {Email} logged in at {Time}.",
+                            user.data.email, DateTime.UtcNow);
+
+                        return LocalRedirect(Url.GetLocalUrl(returnUrl));
+                    }
+                    else
                     {
-                        IsPersistent = IsRememberMe,
-                    };
-
-                    await HttpContext.SignInAsync(
-                        CookieAuthenticationDefaults.AuthenticationScheme,
-                        new ClaimsPrincipal(claimsIdentity),
-                        authProperties);
-                    _logger.LogInformation("User {Email} logged in at {Time}.",
-                        user.data.email, DateTime.UtcNow);
-
-                    return LocalRedirect(Url.GetLocalUrl(returnUrl));
+                        ModelState.AddModelError("", "Unable to connect Server please try again after some time!!");
+                        return Page();
+                    }
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Unable to connect Server please try again after some time!!");
+                    ModelState.AddModelError("", "Unable to validate your detail please try again");
                     return Page();
                 }
             }
-            else
+            catch (Exception ex)
             {
-                ModelState.AddModelError("", "Unable to validate your detail please try again");
+                _logger.LogInformation("Exception : {EX}",ex.Message);
                 return Page();
-            }            
+            }       
         }
         
         public async Task<ResponseResult<ApplicationUser>> AuthenticateUser(string email, string password)
